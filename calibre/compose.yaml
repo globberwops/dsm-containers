@@ -1,0 +1,14 @@
+---
+version: "3.9"
+services:
+  calibre:
+    image: ghcr.io/linuxserver/calibre-web
+    container_name: calibre
+    ports:
+      - "8083:8083"
+    volumes:
+      - "/volume1/docker/calibre/config:/config:rw"
+      - "/volume1/docker/calibre/library:/books:rw"
+    restart: unless-stopped
+    env_file:
+      - calibre.env
