@@ -3,7 +3,6 @@ version: "3.9"
 services:
   calibre:
     image: ghcr.io/linuxserver/calibre-web
-    container_name: calibre
     ports:
       - "8083:8083"
     volumes:
@@ -12,3 +11,6 @@ services:
     restart: unless-stopped
     env_file:
       - calibre.env
+    labels:
+      - arpa.home.description="Calibre Ebook Management UI"
+      - arpa.home.category="Media"
