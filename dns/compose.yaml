@@ -1,0 +1,32 @@
+---
+version: "3.9"
+services:
+  unbound:
+    image: "mvance/unbound:latest"
+    expose:
+      - "5335/tcp"
+      - "5335/udp"
+    volumes:
+      - "/volume1/docker/dns/unbound:/opt/unbound/etc/unbound:rw"
+    restart: unless-stopped
+    labels:
+      - arpa.home.description="Unbound DNS Server"
+      - arpa.home.category="Network"
+
+  pihole:
+    image: pihole/pihole
+    depends_on:
+      - unbound
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8080:8080/tcp"
+    volumes:
+      - "/volume1/docker/dns/dnsmasq.d:/etc/dnsmasq.d:rw"
+      - "/volume1/docker/dns/pihole:/etc/pihole:rw"
+    restart: unless-stopped
+    env_file:
+      - pihole.env
+    labels:
+      - arpa.home.description="Pi-hole DNS Server"
+      - arpa.home.category="Network"
