@@ -2,7 +2,7 @@
 version: "3.9"
 services:
   unbound:
-    image: "mvance/unbound:latest"
+    image: mvance/unbound
     expose:
       - "5335/tcp"
       - "5335/udp"
