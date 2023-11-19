@@ -11,5 +11,5 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
     restart: unless-stopped
     labels:
-      - arpa.home.description="Portainer Docker Management UI"
+      - arpa.home.description="Portainer - Docker Management UI"
       - arpa.home.category="Containers"

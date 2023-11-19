@@ -11,5 +11,5 @@ services:
       - "/volume1/docker/unbound/unbound:/opt/unbound/etc/unbound:rw"
     restart: unless-stopped
     labels:
-      - arpa.home.description="Unbound DNS Server"
+      - arpa.home.description="Unbound - Recursive DNS Server"
       - arpa.home.category="Network"
