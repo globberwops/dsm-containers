@@ -1,0 +1,31 @@
+---
+version: "3.9"
+services:
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - "/volume1/docker/analytics/prometheus:/etc/prometheus:rw"
+    restart: unless-stopped
+    healthcheck:
+      test: curl --fail http://localhost:9090 || exit 1
+    labels:
+      - arpa.home.description="Prometheus - Monitoring System"
+      - arpa.home.category="Analytics"
+
+  grafana:
+    image: grafana/grafana-oss
+    user: "0"
+    ports:
+      - "3000:3000"
+    volumes:
+      - "/volume1/docker/analytics/grafana:/var/lib/grafana:rw"
+    restart: unless-stopped
+    env_file:
+      - grafana.env
+    healthcheck:
+      test: curl --fail http://localhost:3000/api/health || exit 1
+    labels:
+      - arpa.home.description="Grafana - Analytics And Monitoring"
+      - arpa.home.category="Analytics"
