@@ -11,9 +11,6 @@ services:
     restart: unless-stopped
     healthcheck:
       test: drill -p 5335 @127.0.0.1 cloudflare.com || exit 1
-      interval: 5s
-      timeout: 3s
-      start_period: 5s
     labels:
       - arpa.home.description="Unbound - Recursive DNS Server"
       - arpa.home.category="Network"
