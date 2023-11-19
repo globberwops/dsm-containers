@@ -13,5 +13,5 @@ services:
     env_file:
       - pihole.env
     labels:
-      - arpa.home.description="Pi-hole DNS Server"
+      - arpa.home.description="Pi-hole - Network-wide Ad Blocking"
       - arpa.home.category="Network"

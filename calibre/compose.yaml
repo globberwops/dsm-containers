@@ -18,5 +18,5 @@ services:
       retries: 3
       start_period: 40s
     labels:
-      - arpa.home.description="Calibre Ebook Management UI"
+      - arpa.home.description="Calibre Web - Ebook library"
       - arpa.home.category="Media"
