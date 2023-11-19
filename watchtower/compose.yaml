@@ -1,0 +1,13 @@
+---
+version: "3.9"
+services:
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart: unless-stopped
+    env_file:
+      - watchtower.env
+    labels:
+      - arpa.home.description="Watchtower - Automatic Docker Container Updates"
+      - arpa.home.category="Containers"
