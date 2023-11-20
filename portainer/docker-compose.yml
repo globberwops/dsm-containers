@@ -3,15 +3,20 @@ version: "3.9"
 services:
   portainer:
     image: portainer/portainer-ce:alpine
-    ports:
-      - "8000:8000"
-      - "9443:9443"
+    container_name: portainer
+    domainname: home.arpa
+    hostname: portainer
+    networks:
+      macvlan0:
+        ipv4_address: 192.168.178.210
     volumes:
       - "/volume1/docker/portainer/data:/data:rw"
       - "/var/run/docker.sock:/var/run/docker.sock"
     restart: unless-stopped
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider --no-check-certificate https://localhost:9443 || exit 1
-    labels:
-      - arpa.home.description="Portainer - Docker Management UI"
-      - arpa.home.category="Containers"
+      test: wget --no-verbose --tries=1 --spider --no-check-certificate https://192.168.178.210 || exit 1
+    entrypoint: /portainer --bind :80 --bind-https :443
+
+networks:
+  macvlan0:
+    external: true

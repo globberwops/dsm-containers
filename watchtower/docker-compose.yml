@@ -8,6 +8,3 @@ services:
     restart: unless-stopped
     env_file:
       - watchtower.env
-    labels:
-      - arpa.home.description="Watchtower - Automatic Docker Container Updates"
-      - arpa.home.category="Containers"

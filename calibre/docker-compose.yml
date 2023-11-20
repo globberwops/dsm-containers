@@ -12,7 +12,4 @@ services:
     env_file:
       - calibre.env
     healthcheck:
-      test: curl --fail http://localhost:8083 || exit 1
-    labels:
-      - arpa.home.description="Calibre Web - Ebook library"
-      - arpa.home.category="Media"
+      test: curl --fail http://127.0.0.1:8083 || exit 1

@@ -3,32 +3,43 @@ version: "3.9"
 services:
   unbound:
     image: mvance/unbound
-    expose:
-      - "5335/tcp"
-      - "5335/udp"
+    container_name: unbound
+    domainname: home.arpa
+    hostname: unbound
+    networks:
+      macvlan0:
+        ipv4_address: 192.168.178.208
     volumes:
       - "/volume1/docker/dns/unbound:/opt/unbound/etc/unbound:rw"
     restart: unless-stopped
-    healthcheck:
-      test: drill -p 5335 @127.0.0.1 cloudflare.com || exit 1
-    labels:
-      - arpa.home.description="Unbound - Recursive DNS Server"
-      - arpa.home.category="Network"
 
   pihole:
     image: pihole/pihole
-    depends_on:
-      - unbound
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
-      - "8080:8080/tcp"
+    container_name: pihole
+    domainname: home.arpa
+    hostname: pihole
+    networks:
+      macvlan0:
+        ipv4_address: 192.168.178.209
+    cap_add:
+      - NET_ADMIN
     volumes:
       - "/volume1/docker/dns/dnsmasq.d:/etc/dnsmasq.d:rw"
       - "/volume1/docker/dns/pihole:/etc/pihole:rw"
     restart: unless-stopped
     env_file:
       - pihole.env
-    labels:
-      - arpa.home.description="Pi-hole - Network-wide Ad Blocking"
-      - arpa.home.category="Network"
+    depends_on:
+      - unbound
+
+networks:
+  macvlan0:
+    name: macvlan0
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: "192.168.178.0/24"
+          ip_range: "192.168.178.208/28" # 192.168.178.208 - 192.168.178.223
+          gateway: "192.168.178.1"

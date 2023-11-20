@@ -3,29 +3,35 @@ version: "3.9"
 services:
   prometheus:
     image: prom/prometheus
-    ports:
-      - "9090:9090"
+    container_name: prometheus
+    domainname: home.arpa
+    hostname: prometheus
+    networks:
+      macvlan0:
+        ipv4_address: 192.168.178.211
     volumes:
       - "/volume1/docker/analytics/prometheus:/etc/prometheus:rw"
     restart: unless-stopped
     healthcheck:
-      test: curl --fail http://localhost:9090 || exit 1
-    labels:
-      - arpa.home.description="Prometheus - Monitoring System"
-      - arpa.home.category="Analytics"
+      test: wget --no-verbose --tries=1 --spider http://192.168.178.211:9090 || exit 1
 
   grafana:
     image: grafana/grafana-oss
     user: "0"
-    ports:
-      - "3000:3000"
+    container_name: grafana
+    domainname: home.arpa
+    hostname: grafana
+    networks:
+      macvlan0:
+        ipv4_address: 192.168.178.212
     volumes:
       - "/volume1/docker/analytics/grafana:/var/lib/grafana:rw"
     restart: unless-stopped
     env_file:
       - grafana.env
     healthcheck:
-      test: curl --fail http://localhost:3000/api/health || exit 1
-    labels:
-      - arpa.home.description="Grafana - Analytics And Monitoring"
-      - arpa.home.category="Analytics"
+      test: curl --fail http://192.168.178.212/api/health || exit 1
+
+networks:
+  macvlan0:
+    external: true
