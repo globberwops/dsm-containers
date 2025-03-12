@@ -3,6 +3,9 @@ version: "3.9"
 services:
   calibre:
     image: ghcr.io/linuxserver/calibre-web
+    container_name: calibre
+    domainname: home.arpa
+    hostname: calibre
     ports:
       - "8083:8083"
     volumes:
