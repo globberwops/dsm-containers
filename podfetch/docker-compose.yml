@@ -1,0 +1,29 @@
+---
+version: "3.9"
+services:
+  podfetch:
+    image: samuel19982/podfetch:latest
+    container_name: podfetch
+    domainname: home.arpa
+    hostname: podfetch
+    user: "1026:100"
+    ports:
+      - "4135:8000"
+    volumes:
+      - "/volume1/docker/podfetch/podcasts:/app/podcasts:rw"
+    restart: unless-stopped
+    env_file:
+      - podfetch.env
+
+  postgres:
+    image: postgres:16
+    container_name: podfetch-db
+    security_opt:
+      - "no-new-privileges=true"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "podfetch", "-U", "postgres" ]
+    volumes:
+      - "/volume1/docker/podfetch/db:/var/lib/postgresql/data:rw"
+    restart: unless-stopped
+    env_file:
+      - postgres.env
